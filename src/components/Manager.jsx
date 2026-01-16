@@ -32,15 +32,24 @@ const Manager = () => {
   }
 
   const savePassword = () => {
-    const newPasswordArray = [...passwordArray, { ...form, id: uuidv4() }];
-    setPasswordArray(newPasswordArray);
-    localStorage.setItem("passwords", JSON.stringify(newPasswordArray));
-    setform({site: "", username: "", password: ""});
-    toast.success('Password Saved!', {
+    if (form.site.length > 0 && form.username.length > 0 && form.password.length > 0) { 
+      const newPasswordArray = [...passwordArray, { ...form, id: uuidv4() }];
+      setPasswordArray(newPasswordArray);
+      localStorage.setItem("passwords", JSON.stringify(newPasswordArray));
+      setform({site: "", username: "", password: ""});
+      toast.success('Password Saved!', {
+          position: "top-right",
+          autoClose: 1000,
+          theme: "dark", 
+      });
+    }
+    else{
+        toast.error('Error: Please fill all the fields!', {
         position: "top-right",
-        autoClose: 1000,
-        theme: "dark", 
-    });
+        autoClose: 2000,
+        theme: "dark",
+      });
+    }
   }
 
   const deletePassword = (id) => {
