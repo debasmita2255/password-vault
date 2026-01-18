@@ -121,28 +121,25 @@ const Manager = () => {
       transition={Slide}
       style={{ zIndex: 99999 }}
     />
-    
-    {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-green-50 bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div>
-    <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div> */}
-
+  
     <div className="fixed inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div>
     </div>
     
     <div className="mycontainer">
-        <h1 className='text-4xl text font-bold text-center'>
+        <h1 className='text-3xl md:text-4xl text font-bold text-center'>
           <span className='text-green-500'>&lt;</span>
             Password Vault
           <span className='text-green-500'>/&gt;</span>
         </h1>
-        <p className='text-green-900 text-lg text-center'>Your personal password manager</p>
+        <p className='text-green-900 text-lg text-center'>Your reliable password manager</p>
           <div className="text-black flex flex-col p-4 gap-8 items-center">
-              <input value={form.site} onChange={handleChange} placeholder='Enter website URL' className='rounded-full border border-green-500 w-full px-4 py-1' type='text' name='site' id='' />
-              <div className="flex w-full gap-8">
-                  <input value={form.username} onChange={handleChange} placeholder='Enter Username' className='rounded-full border border-green-500 w-full px-4 py-1' type='text' name='username' id='' />
+              <input value={form.site} onChange={handleChange} placeholder='Enter website URL' className='rounded-full border border-green-500 w-full px-4 py-1' type='text' name='site' id='site' />
+              <div className="flex flex-col md:flex-row w-full gap-y-8 gap-x-2 lg:gap-x-8">
+                  <input value={form.username} onChange={handleChange} placeholder='Enter Username' className='rounded-full border border-green-500 w-full px-4 py-1' type='text' name='username' id='username' />
                   <div className="relative">
                     
-                    <input ref={passwordRef} value={form.password} onChange={handleChange} placeholder='Enter Password' className='rounded-full border border-green-500 w-full px-4 py-1' type='password' name='password' id='' />
+                    <input ref={passwordRef} value={form.password} onChange={handleChange} placeholder='Enter Password' className='rounded-full border border-green-500 w-full px-4 py-1' type='password' name='password' id='password' />
 
                     <span className='absolute right-[3px] top-[3px] cursor-pointer' onClick={showPassword}>
                       <img ref={ref} className='p-1' width={27} src="icons/eye.svg" alt="eye" />
@@ -163,88 +160,90 @@ const Manager = () => {
         <div className="passwords">
           <h2 className='font-bold text-2xl pb-4'>Your Passwords</h2>
           {passwordArray.length === 0 && <div> No passwords to show</div>}
-          {passwordArray.length != 0 && 
-          <table className="table-auto w-full rounded-md overflow-hidden">
-            <thead className='bg-green-900 text-white'>
-              <tr>
-                <th class="px-4 py-2 text-center min-w-32">Site</th>
-                <th class="px-4 py-2 text-center min-w-32">Username</th>
-                <th class="px-4 py-2 text-center min-w-32">Password</th>
-                <th class="px-4 py-2 text-center min-w-20">Actions</th>
+          <div className="overflow-x-auto w-full">
+            {passwordArray.length != 0 && 
+            <table className="table-auto w-full rounded-md overflow-hidden">
+              <thead className='bg-green-900 text-white'>
+                <tr>
+                  <th className="px-4 py-2 text-center min-w-32">Site</th>
+                  <th className="px-4 py-2 text-center min-w-32">Username</th>
+                  <th className="px-4 py-2 text-center min-w-32">Password</th>
+                  <th className="px-4 py-2 text-center min-w-20">Actions</th>
 
-              </tr>
-            </thead>
+                </tr>
+              </thead>
 
-            <tbody className='bg-green-100'>
-              {passwordArray.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    
-                    <td className='py-2 border border-white text-center min-w-32'>
-                      <div className='flex items-center justify-center gap-1'>
-                        <a href={item.site} target='_blank' rel="noreferrer">{item.site}</a>
-                        <img 
-                          onClick={() => copyToClipboard(item.site)} 
-                          className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
-                          src="/icons/copy.svg" 
-                          alt="copy" 
-                        />
-                      </div>
-                    </td>
-
-                    <td className='py-2 border border-white text-center min-w-32'>
-                      <div className='flex items-center justify-center gap-1'>
-                        <span>{item.username}</span>
-                        <img 
-                          onClick={() => copyToClipboard(item.username)} 
-                          className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
-                          src="/icons/copy.svg" 
-                          alt="copy" 
-                        />
-                      </div>
-                    </td>
-
-                    <td className='py-2 border border-white text-center min-w-32'>
-                      <div className='flex items-center justify-center gap-1'>
-                        <span>{item.password}</span>
-                        <img 
-                          onClick={() => copyToClipboard(item.password)} 
-                          className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
-                          src="/icons/copy.svg" 
-                          alt="copy" 
-                        />
-                      </div>
-                    </td>
-
-                    <td className='py-2 border border-white text-center min-w-20'>
-                      <div className='flex justify-center items-center gap-7'>
-                        <span onClick = {() => {editPassword(item.id)}}>
-                          <img
+              <tbody className='bg-green-100'>
+                {passwordArray.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      
+                      <td className='py-2 border border-white text-center min-w-32'>
+                        <div className='flex items-center justify-center gap-1'>
+                          <a href={item.site} target='_blank' rel="noreferrer">{item.site}</a>
+                          <img 
+                            onClick={() => copyToClipboard(item.site)} 
                             className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
-                            src="/icons/edit.svg" 
+                            src="/icons/copy.svg" 
                             alt="copy" 
                           />
-                        </span>
-                        <span className='cursor-pointer' onClick = {() => {deletePassword(item.id)}}>
-                          <script src="https://cdn.lordicon.com/lordicon.js"></script>
-                          <lord-icon
-                              src="https://cdn.lordicon.com/xyfswyxf.json"
-                              trigger="hover"
-                              style={{"width":"20px", "height":"20px"}}
-                              className="transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90"
-                              >
-                          </lord-icon>
-                        </span>
-                      </div>
-                    </td>
-                    
-                  </tr>
-                )
-              })}
-            </tbody>
-            </table> 
-            
-            }
+                        </div>
+                      </td>
+
+                      <td className='py-2 border border-white text-center min-w-32'>
+                        <div className='flex items-center justify-center gap-1'>
+                          <span>{item.username}</span>
+                          <img 
+                            onClick={() => copyToClipboard(item.username)} 
+                            className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
+                            src="/icons/copy.svg" 
+                            alt="copy" 
+                          />
+                        </div>
+                      </td>
+
+                      <td className='py-2 border border-white text-center min-w-32'>
+                        <div className='flex items-center justify-center gap-1'>
+                          <span>{item.password}</span>
+                          <img 
+                            onClick={() => copyToClipboard(item.password)} 
+                            className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
+                            src="/icons/copy.svg" 
+                            alt="copy" 
+                          />
+                        </div>
+                      </td>
+
+                      <td className='py-2 border border-white text-center min-w-20'>
+                        <div className='flex justify-center items-center gap-7'>
+                          <span onClick = {() => {editPassword(item.id)}}>
+                            <img
+                              className="w-5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90" 
+                              src="/icons/edit.svg" 
+                              alt="copy" 
+                            />
+                          </span>
+                          <span className='cursor-pointer' onClick = {() => {deletePassword(item.id)}}>
+                            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/xyfswyxf.json"
+                                trigger="hover"
+                                style={{"width":"20px", "height":"20px"}}
+                                className="transition-transform duration-200 ease-in-out hover:scale-125 active:scale-90"
+                                >
+                            </lord-icon>
+                          </span>
+                        </div>
+                      </td>
+                      
+                    </tr>
+                  )
+                })}
+              </tbody>
+              </table> 
+              
+              }
+            </div>
         </div>
       </div></>
   )
